@@ -1,3 +1,234 @@
-<h1> Hello world!! </h1>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bhawana Weds Shubham | Wedding Invitation</title>
+    <meta name="description" content="Join us for the wedding celebration of Bhawana & Shubham on 5th February">
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Cormorant+Garamond:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-<a href="https://www.google.com/maps/dir/?api=1&destination=17.7264499,83.2670747&travelmode=driving">Direction to Venue</a>
+        body {
+            font-family: 'Cormorant Garamond', serif;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #8B0000 0%, #DC143C 50%, #B22222 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23FFD700' fill-opacity='0.08'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+            pointer-events: none;
+        }
+
+        .card {
+            background: linear-gradient(145deg, rgba(255,255,255,0.95) 0%, rgba(255,248,240,0.98) 100%);
+            border-radius: 24px;
+            padding: 48px 32px;
+            max-width: 420px;
+            width: 100%;
+            text-align: center;
+            box-shadow: 
+                0 25px 80px rgba(0,0,0,0.4),
+                0 0 0 1px rgba(255,215,0,0.3),
+                inset 0 0 60px rgba(255,215,0,0.05);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 6px;
+            background: linear-gradient(90deg, #FFD700, #FFA500, #FFD700);
+        }
+
+        .om-symbol {
+            font-size: 28px;
+            color: #B22222;
+            margin-bottom: 8px;
+            opacity: 0.7;
+        }
+
+        .subtitle {
+            font-size: 14px;
+            letter-spacing: 4px;
+            color: #B22222;
+            text-transform: uppercase;
+            margin-bottom: 16px;
+        }
+
+        .couple-names {
+            font-family: 'Great Vibes', cursive;
+            font-size: clamp(42px, 10vw, 56px);
+            background: linear-gradient(135deg, #B22222 0%, #8B0000 50%, #DC143C 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            line-height: 1.2;
+            margin-bottom: 24px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .divider {
+            width: 120px;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #FFD700, transparent);
+            margin: 0 auto 24px;
+        }
+
+        .date {
+            font-size: 20px;
+            color: #333;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .venue {
+            font-size: 14px;
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 32px;
+            padding: 0 16px;
+        }
+
+        .venue strong {
+            display: block;
+            font-size: 16px;
+            color: #444;
+            margin-bottom: 4px;
+        }
+
+        .buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .btn {
+            padding: 16px 32px;
+            border-radius: 50px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            border: none;
+            font-family: inherit;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #B22222 0%, #8B0000 100%);
+            color: white;
+            box-shadow: 0 4px 20px rgba(178,34,34,0.4);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 30px rgba(178,34,34,0.5);
+        }
+
+        .btn-secondary {
+            background: #f5f5f5;
+            color: #999;
+            cursor: not-allowed;
+            position: relative;
+        }
+
+        .tooltip {
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #333;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-size: 12px;
+            white-space: nowrap;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            margin-bottom: 8px;
+        }
+
+        .tooltip::after {
+            content: '';
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            border: 6px solid transparent;
+            border-top-color: #333;
+        }
+
+        .btn-secondary:hover .tooltip {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .footer {
+            margin-top: 32px;
+            font-size: 12px;
+            color: #999;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <div class="om-symbol">ॐ</div>
+        <div class="subtitle">Wedding Invitation</div>
+        
+        <h1 class="couple-names">Bhawana<br>&<br>Shubham</h1>
+        
+        <div class="divider"></div>
+        
+        <div class="date">5th February 2025</div>
+        <div class="venue">
+            <strong>Kala Megha AC Auditorium</strong>
+            Meghadripeta Defense Housing Colony,<br>
+            Visakhapatnam, Andhra Pradesh 530008
+        </div>
+        
+        <div class="buttons">
+            <a href="https://www.google.com/maps/dir/?api=1&destination=17.7264499,83.2670747&travelmode=driving" 
+               class="btn btn-primary" target="_blank">
+                📍 Direction to Venue
+            </a>
+            <button class="btn btn-secondary" disabled>
+                📷 Photos
+                <span class="tooltip">Photos will be added after the wedding</span>
+            </button>
+        </div>
+        
+        <div class="footer">With love and blessings 💕</div>
+    </div>
+</body>
+</html>
