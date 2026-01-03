@@ -1,12 +1,27 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bhawana Weds Shubham | Wedding Invitation</title>
-    <meta name="description" content="Join us for the wedding celebration of Bhawana & Shubham on 5th February">
-    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Cormorant+Garamond:wght@400;600&display=swap" rel="stylesheet">
+    <title>Bhawana & Shubham | Royal Cinematic</title>
+    <meta name="description" content="Join us for the wedding celebration of Bhawana & Shubham">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Cormorant+Garamond:wght@400;600;700&display=swap"
+        rel="stylesheet">
     <style>
+        :root {
+            --primary-red: #B22222;
+            --dark-red: #8B0000;
+            --light-crimson: #DC143C;
+            --gold: #FFD700;
+            --bg-gradient: linear-gradient(135deg, var(--dark-red) 0%, var(--light-crimson) 50%, var(--primary-red) 100%);
+            --card-bg: linear-gradient(145deg, rgba(255, 255, 255, 0.95) 0%, rgba(255, 248, 240, 0.98) 100%);
+            --text-color: #333;
+        }
+
         * {
             margin: 0;
             padding: 0;
@@ -16,7 +31,7 @@
         body {
             font-family: 'Cormorant Garamond', serif;
             min-height: 100vh;
-            background: linear-gradient(135deg, #8B0000 0%, #DC143C 50%, #B22222 100%);
+            background: var(--bg-gradient);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -25,30 +40,63 @@
             overflow-x: hidden;
         }
 
-        body::before {
-            content: '';
+        /* Canvas Overlay */
+        #sparkleCanvas {
             position: absolute;
             top: 0;
             left: 0;
-            right: 0;
-            bottom: 0;
-            background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23FFD700' fill-opacity='0.08'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            /* Behind card but on top of gradient */
+            pointer-events: none;
+        }
+
+        /* Subtle Pattern Overlay */
+        body::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23FFD700' fill-opacity='0.1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
             pointer-events: none;
         }
 
         .card {
-            background: linear-gradient(145deg, rgba(255,255,255,0.95) 0%, rgba(255,248,240,0.98) 100%);
+            background: var(--card-bg);
             border-radius: 24px;
             padding: 48px 32px;
-            max-width: 420px;
+            max-width: 480px;
             width: 100%;
             text-align: center;
-            box-shadow: 
-                0 25px 80px rgba(0,0,0,0.4),
-                0 0 0 1px rgba(255,215,0,0.3),
-                inset 0 0 60px rgba(255,215,0,0.05);
+            box-shadow:
+                0 25px 80px rgba(0, 0, 0, 0.4),
+                0 0 0 1px rgba(255, 215, 0, 0.3),
+                inset 0 0 60px rgba(255, 215, 0, 0.05);
             position: relative;
             overflow: hidden;
+            z-index: 1;
+            /* On top of sparkles */
+            opacity: 0;
+            /* Entrance and constant subtle float */
+            animation: cardReveal 1.2s cubic-bezier(0.2, 0.8, 0.2, 1) forwards, floatCard 6s ease-in-out infinite 1.2s;
+        }
+
+        /* Shine effect passing over the card */
+        .card::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -150%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg,
+                    transparent 0%,
+                    rgba(255, 255, 255, 0.4) 50%,
+                    transparent 100%);
+            transform: skewX(-20deg);
+            animation: shine 4s ease-in-out infinite 2s;
+            /* Delayed start */
+            pointer-events: none;
         }
 
         .card::before {
@@ -57,74 +105,137 @@
             top: 0;
             left: 0;
             right: 0;
-            height: 6px;
+            height: 8px;
             background: linear-gradient(90deg, #FFD700, #FFA500, #FFD700);
         }
 
         .om-symbol {
-            font-size: 28px;
-            color: #B22222;
-            margin-bottom: 8px;
-            opacity: 0.7;
+            font-size: 32px;
+            color: var(--primary-red);
+            margin-bottom: 12px;
+            display: inline-block;
+            opacity: 0;
+            animation: staggerReveal 0.8s ease forwards 0.3s;
+            /* Delay 0.3s */
         }
 
         .subtitle {
-            font-size: 14px;
+            font-size: 16px;
             letter-spacing: 4px;
-            color: #B22222;
+            color: var(--primary-red);
             text-transform: uppercase;
-            margin-bottom: 16px;
+            margin-bottom: 20px;
+            font-weight: 600;
+            opacity: 0;
+            animation: staggerReveal 0.8s ease forwards 0.5s;
         }
 
         .couple-names {
             font-family: 'Great Vibes', cursive;
-            font-size: clamp(42px, 10vw, 56px);
-            background: linear-gradient(135deg, #B22222 0%, #8B0000 50%, #DC143C 100%);
+            font-size: clamp(48px, 12vw, 64px);
+            background: linear-gradient(135deg, #B22222 0%, #800000 50%, #DC143C 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
-            line-height: 1.2;
+            line-height: 1.1;
             margin-bottom: 24px;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+            padding-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.05);
+            opacity: 0;
+            transform: scale(0.9);
+            animation: scaleReveal 1s cubic-bezier(0.34, 1.56, 0.64, 1) forwards 0.7s;
+        }
+
+        .couple-names span {
+            display: block;
+            font-size: 0.6em;
+            margin: 5px 0;
         }
 
         .divider {
-            width: 120px;
+            width: 140px;
             height: 2px;
             background: linear-gradient(90deg, transparent, #FFD700, transparent);
-            margin: 0 auto 24px;
+            margin: 0 auto 32px;
+            position: relative;
+            opacity: 0;
+            animation: widthReveal 1s ease forwards 1s;
+        }
+
+        .divider::after {
+            content: '❧';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: #fff8f0;
+            padding: 0 10px;
+            color: #FFD700;
+            font-size: 20px;
+        }
+
+        .content-group {
+            opacity: 0;
+            transform: translateY(20px);
+            animation: staggerReveal 0.8s ease forwards 1.2s;
+        }
+
+        .date-section {
+            margin-bottom: 32px;
         }
 
         .date {
-            font-size: 20px;
+            font-size: 24px;
             color: #333;
-            font-weight: 600;
-            margin-bottom: 8px;
-        }
-
-        .venue {
-            font-size: 14px;
-            color: #666;
-            line-height: 1.6;
-            margin-bottom: 32px;
-            padding: 0 16px;
-        }
-
-        .venue strong {
-            display: block;
-            font-size: 16px;
-            color: #444;
+            font-weight: 700;
             margin-bottom: 4px;
+        }
+
+        .day {
+            font-size: 18px;
+            color: #666;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .venue-section {
+            background: rgba(178, 34, 34, 0.03);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 32px;
+            border: 1px dashed rgba(178, 34, 34, 0.2);
+        }
+
+        .venue-label {
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--primary-red);
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+
+        .venue-name {
+            font-size: 20px;
+            font-weight: 700;
+            color: #222;
+            margin-bottom: 4px;
+        }
+
+        .venue-address {
+            font-size: 16px;
+            color: #555;
+            line-height: 1.5;
         }
 
         .buttons {
             display: flex;
             flex-direction: column;
-            gap: 12px;
+            gap: 16px;
         }
 
         .btn {
-            padding: 16px 32px;
+            padding: 18px 32px;
             border-radius: 50px;
             font-size: 16px;
             font-weight: 600;
@@ -134,101 +245,302 @@
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            gap: 8px;
+            gap: 10px;
             border: none;
             font-family: inherit;
+            position: relative;
+            /* overflow: hidden; Removed to allow tooltip */
+            opacity: 0;
+            animation: staggerReveal 0.8s ease forwards 1.4s;
         }
 
         .btn-primary {
             background: linear-gradient(135deg, #B22222 0%, #8B0000 100%);
             color: white;
-            box-shadow: 0 4px 20px rgba(178,34,34,0.4);
+            box-shadow: 0 4px 15px rgba(178, 34, 34, 0.3);
+            background-size: 200% auto;
+            transition: 0.5s;
         }
 
         .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 30px rgba(178,34,34,0.5);
+            transform: translateY(-2px) scale(1.02);
+            box-shadow: 0 8px 25px rgba(178, 34, 34, 0.5);
+            background-position: right center;
+            /* Color shift on hover */
         }
 
-        .btn-secondary {
-            background: #f5f5f5;
-            color: #999;
-            cursor: not-allowed;
-            position: relative;
-        }
-
-        .tooltip {
-            position: absolute;
-            bottom: 100%;
-            left: 50%;
-            transform: translateX(-50%);
-            background: #333;
-            color: white;
-            padding: 8px 16px;
-            border-radius: 8px;
-            font-size: 12px;
-            white-space: nowrap;
-            opacity: 0;
+        /* Toast Notification */
+        /* Toast Notification */
+        .toast {
             visibility: hidden;
-            transition: all 0.3s ease;
-            margin-bottom: 8px;
-        }
-
-        .tooltip::after {
-            content: '';
-            position: absolute;
-            top: 100%;
+            min-width: 250px;
+            background-color: rgba(0, 0, 0, 0.7);
+            /* Translucent */
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: #fff;
+            text-align: center;
+            border-radius: 50px;
+            padding: 16px 24px;
+            position: fixed;
+            z-index: 1000;
             left: 50%;
-            transform: translateX(-50%);
-            border: 6px solid transparent;
-            border-top-color: #333;
+            bottom: 30px;
+            transform: translateX(-50%) translateY(20px) scale(0.9);
+            font-size: 14px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            opacity: 0;
+            transition: all 0.5s cubic-bezier(0.19, 1, 0.22, 1);
         }
 
-        .btn-secondary:hover .tooltip {
-            opacity: 1;
+        .toast.show {
             visibility: visible;
+            opacity: 1;
+            bottom: 50px;
+            transform: translateX(-50%) translateY(0) scale(1);
         }
 
         .footer {
-            margin-top: 32px;
-            font-size: 12px;
-            color: #999;
+            margin-top: 40px;
+            font-size: 14px;
+            color: var(--primary-red);
+            font-style: italic;
+            opacity: 0;
+            animation: staggerReveal 0.8s ease forwards 1.8s;
         }
 
-        @keyframes float {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-10px); }
+        /* --- Animations --- */
+
+        @keyframes cardReveal {
+            from {
+                opacity: 0;
+                transform: translateY(40px) scale(0.95);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        @keyframes floatCard {
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+
+        @keyframes staggerReveal {
+            from {
+                opacity: 0;
+                transform: translateY(15px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes scaleReveal {
+            from {
+                opacity: 0;
+                transform: scale(0.8);
+            }
+
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        @keyframes widthReveal {
+            from {
+                opacity: 0;
+                width: 0;
+            }
+
+            to {
+                opacity: 1;
+                width: 140px;
+            }
+        }
+
+        @keyframes shine {
+            0% {
+                left: -150%;
+            }
+
+            20% {
+                left: 150%;
+            }
+
+            /* Fast pass */
+            100% {
+                left: 150%;
+            }
+
+            /* Wait */
+        }
+
+        /* Mobile Adjustments */
+        @media (max-width: 480px) {
+            .card {
+                padding: 32px 20px;
+            }
+
+            .couple-names {
+                font-size: 48px;
+            }
+
+            .venue-section {
+                padding: 16px;
+            }
         }
     </style>
 </head>
+
 <body>
+    <canvas id="sparkleCanvas"></canvas>
     <div class="card">
         <div class="om-symbol">ॐ</div>
         <div class="subtitle">Wedding Invitation</div>
-        
-        <h1 class="couple-names">Bhawana<br>&<br>Shubham</h1>
-        
+
+        <h1 class="couple-names">
+            Bhawana
+            <span>weds</span>
+            Shubham
+        </h1>
+
         <div class="divider"></div>
-        
-        <div class="date">5th February 2025</div>
-        <div class="venue">
-            <strong>Kala Megha AC Auditorium</strong>
-            Meghadripeta Defense Housing Colony,<br>
-            Visakhapatnam, Andhra Pradesh 530008
+
+        <div class="content-group">
+            <div class="date-section">
+                <div class="date">5th February 2026</div>
+                <div class="day">Thursday, 7:30PM onwards</div>
+            </div>
+
+            <div class="venue-section">
+                <div class="venue-label">Marriage Ceremony</div>
+                <div class="venue-name">Kala Megha AC Auditorium</div>
+                <div class="venue-address">
+                    Meghadripeta Defense Housing Colony,<br>
+                    Visakhapatnam, Andhra Pradesh 530008
+                </div>
+            </div>
+
+            <div class="buttons">
+                <a href="https://www.google.com/maps/dir/?api=1&destination=17.7264499,83.2670747&travelmode=driving"
+                    class="btn btn-primary" target="_blank">
+                    <span>📍</span> Get Directions
+                </a>
+                <button class="btn btn-secondary" onclick="showToast()">
+                    <span>📷</span> Wedding Photos
+                </button>
+            </div>
         </div>
-        
-        <div class="buttons">
-            <a href="https://www.google.com/maps/dir/?api=1&destination=17.7264499,83.2670747&travelmode=driving" 
-               class="btn btn-primary" target="_blank">
-                📍 Direction to Venue
-            </a>
-            <button class="btn btn-secondary" disabled>
-                📷 Photos
-                <span class="tooltip">Photos will be added after the wedding</span>
-            </button>
-        </div>
-        
+
         <div class="footer">With love and blessings 💕</div>
     </div>
+
+    <div id="toast" class="toast">Photos will be available after the wedding! 📸</div>
+
+    <script>
+        function showToast() {
+            var x = document.getElementById("toast");
+            x.className = "toast show";
+            setTimeout(function () { x.className = x.className.replace("show", ""); }, 3000);
+        }
+
+        const canvas = document.getElementById('sparkleCanvas');
+        const ctx = canvas.getContext('2d');
+        let width, height;
+        let particles = [];
+
+        function resize() {
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
+        }
+
+        window.addEventListener('resize', resize);
+        resize();
+
+        class Particle {
+            constructor() {
+                this.reset();
+                this.y = Math.random() * height; // Start at random height
+            }
+
+            reset() {
+                this.x = Math.random() * width;
+                this.y = height + 10;
+                this.size = Math.random() * 3 + 1; // Size variance
+                this.speed = Math.random() * 1 + 0.2;
+                this.opacity = Math.random() * 0.5 + 0.1;
+                this.color = `rgba(255, 215, 0, ${this.opacity})`; // Gold
+                this.wobble = Math.random() * 0.05;
+                this.wobbleSpeed = Math.random() * 0.02;
+                this.wobbleTheta = Math.random() * Math.PI * 2;
+            }
+
+            update() {
+                this.y -= this.speed;
+                this.wobbleTheta += this.wobbleSpeed;
+                this.x += Math.sin(this.wobbleTheta) * 0.5;
+
+                if (this.y < -10) {
+                    this.reset();
+                }
+            }
+
+            draw() {
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fillStyle = this.color;
+                ctx.fill();
+
+                // Optional cross effect for glint
+                if (this.size > 2.5) {
+                    ctx.save();
+                    ctx.translate(this.x, this.y);
+                    ctx.rotate(this.wobbleTheta);
+                    ctx.fillStyle = `rgba(255, 255, 255, ${this.opacity})`;
+                    ctx.fillRect(-this.size * 2, -0.5, this.size * 4, 1);
+                    ctx.fillRect(-0.5, -this.size * 2, 1, this.size * 4);
+                    ctx.restore();
+                }
+            }
+        }
+
+        function initParticles() {
+            particles = [];
+            const particleCount = Math.floor(width * 0.1); // Density based on screen width
+            for (let i = 0; i < particleCount; i++) {
+                particles.push(new Particle());
+            }
+        }
+
+        initParticles();
+
+        function animate() {
+            ctx.clearRect(0, 0, width, height);
+
+            particles.forEach(p => {
+                p.update();
+                p.draw();
+            });
+
+            requestAnimationFrame(animate);
+        }
+
+        animate();
+    </script>
 </body>
+
 </html>
